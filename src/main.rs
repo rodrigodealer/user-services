@@ -1,14 +1,22 @@
 #[macro_use]
 extern crate diesel;
 
-// use diesel::prelude::*;
-// use database::models::User;
-// use std::env::args;
-
 mod database;
 
+use database::models::User;
+
 fn main() {
-    let connection = database::establish_connection();
-    println!("Hello World!");
+    use database::schema::users::dsl::*;
+    use diesel::RunQueryDsl;
+
+    let _connection = database::establish_connection();
+
+    let _results = users.load::<User>(&_connection).expect("Error loading users");
+
+    println!("Displaying {} users", _results.len());
+    for user in _results {
+        println!("{}", user.name);
+        println!("-----------\n");
+    }
 }
 
